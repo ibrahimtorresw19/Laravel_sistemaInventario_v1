@@ -1,0 +1,32 @@
+# Archivos de entorno
+.env
+.env.production
+
+# Dependencias
+/vendor
+/node_modules
+
+# Sistema de archivos
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+storage/debugbar/*
+
+# Control de versiones
+.git
+.gitignore
+.gitattributes
+
+# Archivos del sistema
+.DS_Store
+.idea
+.vscode
+
+# Docker
+docker-compose.yml
+docker-compose.override.yml
+
+# Archivos temporales
+*.log
+*.tmp
