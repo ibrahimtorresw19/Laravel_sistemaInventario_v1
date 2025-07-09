@@ -29,12 +29,14 @@ RUN cp .env.example .env && \
     composer install --no-dev --optimize-autoloader && \
     chown -R www-data:www-data storage bootstrap/cache && \
     chmod -R 775 storage bootstrap/cache && \
-    php artisan key:generate --force
-
-# 4. Ejecutar migraciones y optimización
-RUN php artisan migrate --force && \
+    php artisan key:generate --force && \
     php artisan storage:link && \
     php artisan optimize
 
 EXPOSE 80
+
+# Script de inicio que ejecutará las migraciones
+COPY docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["apache2-foreground"]
