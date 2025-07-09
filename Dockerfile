@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# 1. Instalación de dependencias del sistema
+# 1. Instalación de dependencias
 RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
@@ -25,38 +25,37 @@ RUN apt-get update && apt-get install -y \
     opcache \
     && a2enmod rewrite headers
 
-# 2. Configuración de PHP y Apache
+# 2. Configuración básica
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
     sed -i 's/memory_limit = .*/memory_limit = 512M/' "$PHP_INI_DIR/php.ini" && \
     echo "ServerName localhost" >> /etc/apache2/apache2.conf
 
-# 3. Configuración del entorno
 WORKDIR /var/www/html
 
-# 4. Copiar solo los archivos necesarios primero (optimización de caché)
+# 3. Copiar archivos esenciales primero
 COPY composer.json composer.lock ./
 
-# 5. Instalar dependencias de Composer
+# 4. Instalar Composer y dependencias
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer && \
     composer install --no-dev --no-interaction --optimize-autoloader
 
-# 6. Copiar el resto de la aplicación
+# 5. Copiar toda la aplicación
 COPY . .
 
-# 7. Configurar permisos y entorno Laravel
+# 6. Configuración de Laravel
 RUN chown -R www-data:www-data storage bootstrap/cache && \
     chmod -R 775 storage bootstrap/cache && \
     cp .env.example .env && \
     php artisan key:generate --force && \
     php artisan storage:link
 
-# 8. Manejo de migraciones (solución robusta)
+# 7. Solución definitiva para migraciones
 RUN set -e; \
-    if ! ls database/migrations/*_create_sessions_table.php 1> /dev/null 2>&1; then \
+    if [ ! -f "database/migrations/*create_sessions_table.php" ]; then \
         php artisan session:table; \
-    fi && \
-    php artisan migrate --force && \
-    php artisan optimize:clear && \
+    fi; \
+    php artisan migrate --force; \
+    php artisan optimize:clear; \
     php artisan optimize
 
 EXPOSE 80
