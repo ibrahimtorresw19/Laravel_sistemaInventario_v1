@@ -1,7 +1,8 @@
 FROM php:8.2-apache
 
 # 1. Instalación de dependencias
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && \
+    apt-get install -y \
     libzip-dev \
     zip \
     unzip \
@@ -9,16 +10,16 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    netcat-openbsd \  # Usamos netcat-openbsd en lugar de netcat
-    && docker-php-ext-install \
+    netcat-openbsd && \
+    docker-php-ext-install \
     pdo \
     pdo_mysql \
     pdo_pgsql \
     zip \
     mbstring \
     exif \
-    gd \
-    && a2enmod rewrite
+    gd && \
+    a2enmod rewrite
 
 # 2. Configuración del entorno
 WORKDIR /var/www/html
@@ -36,5 +37,5 @@ RUN cp .env.example .env && \
 
 EXPOSE 80
 
-# Comando de inicio modificado para usar nc.openbsd
+# Comando de inicio que espera a que la base de datos esté disponible
 CMD bash -c "while ! nc -z $DB_HOST $DB_PORT; do sleep 1; done && php artisan migrate --force && apache2-foreground"
