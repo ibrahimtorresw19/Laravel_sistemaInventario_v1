@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    netcat \
     && docker-php-ext-install \
     pdo \
     pdo_mysql \
@@ -35,8 +36,5 @@ RUN cp .env.example .env && \
 
 EXPOSE 80
 
-# Script de inicio que ejecutará las migraciones
-COPY docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["apache2-foreground"]
+# Comando de inicio que ejecuta migraciones y luego Apache
+CMD bash -c "while ! nc -z $DB_HOST $DB_PORT; do sleep 1; done && php artisan migrate --force && apache2-foreground"
