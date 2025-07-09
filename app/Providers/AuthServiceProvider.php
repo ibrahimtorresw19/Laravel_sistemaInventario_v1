@@ -3,11 +3,11 @@
 namespace App\Providers;
 
 use App\Models\almacen;
-use App\Models\Categorias;
+use App\Models\categorias;
 use App\Models\inventario_fisico;
 use App\Models\Movimiento_de_Inventario;
 use App\Models\Productos;
-use App\Models\Proveedor;
+use App\Models\proveedor;
 use App\Models\EmpresaModel;
 use App\Policies\AlmacenPolicy;
 use App\Policies\CategoriaPolicy;
@@ -27,8 +27,8 @@ class AuthServiceProvider extends ServiceProvider
      * @var array<class-string, class-string>
      */
     protected $policies = [
-        Categorias::class => CategoriaPolicy::class,
-        Proveedor::class => ProveedorPolicy::class,
+        categorias::class => CategoriaPolicy::class,
+        proveedor::class => ProveedorPolicy::class,
         inventario_fisico::class => inventarioFisicoPolicy::class,
         Productos::class => ProductoPolicy::class,
         movimiento_de_Inventario::class => MovimientoPolicy::class,
