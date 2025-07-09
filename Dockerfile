@@ -31,13 +31,7 @@ RUN cp .env.example .env && \
     chmod -R 775 storage bootstrap/cache && \
     php artisan key:generate --force
 
-# 4. Crear tabla de sesiones si no existe
-RUN if [ ! -f "database/migrations/*create_sessions_table.php" ]; then \
-    php artisan session:table && \
-    php artisan migrate --force; \
-    fi
-
-# 5. Ejecutar migraciones y optimización
+# 4. Ejecutar migraciones y optimización
 RUN php artisan migrate --force && \
     php artisan storage:link && \
     php artisan optimize
