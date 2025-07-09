@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProveedorRequest;
-use App\Models\Proveedor;
+use App\Models\proveedor;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -15,12 +15,12 @@ class ProveedorController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Proveedor::class, 'proveedor');
+        $this->authorizeResource(proveedor::class, 'proveedor');
     }
 
     public function index()
     {
-        $proveedores = Proveedor::where('user_id', Auth::id())->paginate(5);
+        $proveedores = proveedor::where('user_id', Auth::id())->paginate(5);
         return view('inventario.Proveedor', compact('proveedores'));
     }
 
@@ -30,7 +30,7 @@ class ProveedorController extends Controller
         $validatedData['activo'] = $validatedData['estado'] == '1';
         $validatedData['user_id'] = auth()->id();
 
-        Proveedor::create($validatedData);
+        proveedor::create($validatedData);
         
         return redirect()
             ->route('proveedores.index')
@@ -38,7 +38,7 @@ class ProveedorController extends Controller
     }
 
 
-    public function update(ProveedorRequest $request, Proveedor $proveedor): RedirectResponse
+    public function update(ProveedorRequest $request, proveedor $proveedor): RedirectResponse
     {
         $validatedData = $request->validated();
         $validatedData['activo'] = $validatedData['estado'] == '1';
@@ -50,7 +50,7 @@ class ProveedorController extends Controller
             ->with('success', 'Proveedor actualizado exitosamente');
     }
 
-    public function destroy(Proveedor $proveedor): RedirectResponse
+    public function destroy(proveedor $proveedor): RedirectResponse
     {
         $proveedor->delete();
         
