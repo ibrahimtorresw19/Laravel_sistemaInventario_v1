@@ -31,13 +31,13 @@ RUN cp .env.example .env && \
     chmod -R 775 storage bootstrap/cache && \
     php artisan key:generate --force
 
-# 4. Comandos para migraciones (versión mejorada)
-RUN set -e; \
-    if [ ! -f "database/migrations/*create_sessions_table.php" ]; then \
+# 4. Solución definitiva para migraciones
+RUN if ! ls database/migrations/*create_sessions_table.php 1> /dev/null 2>&1; then \
         php artisan session:table; \
-    fi; \
-    php artisan migrate --force; \
-    php artisan storage:link; \
+    fi
+
+RUN php artisan migrate --force && \
+    php artisan storage:link && \
     php artisan optimize
 
 EXPOSE 80
