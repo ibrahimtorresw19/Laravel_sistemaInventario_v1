@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Almacen;
+use App\Models\almacen;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use App\Http\Requests\AlmacenRequest;
@@ -16,12 +16,12 @@ class AlmacenController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Almacen::class, 'almacen'); // Nota: 'almacen' en minúsculas
+        $this->authorizeResource(almacen::class, 'almacen'); // Nota: 'almacen' en minúsculas
     }
 
     public function index(): View
     {
-        $almacenes = Almacen::where('user_id', Auth::id())->paginate(5);
+        $almacenes = almacen::where('user_id', Auth::id())->paginate(5);
         return view('inventario.almacen', compact('almacenes'));
     }
 
@@ -38,7 +38,7 @@ class AlmacenController extends Controller
             ->with('success', 'Almacén creado exitosamente');
     }
 
-    public function update(AlmacenRequest $request, Almacen $almacen): RedirectResponse
+    public function update(AlmacenRequest $request, almacen $almacen): RedirectResponse
     {
         $validatedData = $request->validated();
         $validatedData['activo'] = $request->boolean('activo');
@@ -50,7 +50,7 @@ class AlmacenController extends Controller
             ->with('success', 'Almacén actualizado exitosamente');
     }
 
-    public function destroy(Almacen $almacen): RedirectResponse
+    public function destroy(almacen $almacen): RedirectResponse
     {
         $almacen->delete();
 
