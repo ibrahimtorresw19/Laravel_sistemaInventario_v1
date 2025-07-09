@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Movimiento_de_Inventario;
+use App\Models\movimiento_de_inventario;
 
 class MovimientoPolicy
 {
@@ -12,7 +12,7 @@ class MovimientoPolicy
         return true; // Todos los usuarios autenticados pueden ver la lista
     }
 
-    public function view(User $user, Movimiento_de_Inventario $movimiento)
+    public function view(User $user, movimiento_de_inventario $movimiento)
     {
         return $user->id === $movimiento->user_id;
     }
@@ -22,12 +22,12 @@ class MovimientoPolicy
         return true; // Todos los usuarios autenticados pueden crear
     }
 
-    public function update(User $user, Movimiento_de_Inventario $movimiento)
+    public function update(User $user, movimiento_de_inventario $movimiento)
     {
         return $user->id === $movimiento->user_id;
     }
 
-    public function delete(User $user, Movimiento_de_Inventario $movimiento)
+    public function delete(User $user, movimiento_de_inventario $movimiento)
     {
         return $user->id === $movimiento->user_id;
     }
