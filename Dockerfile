@@ -42,7 +42,5 @@ RUN php artisan migrate --force && \
     php artisan storage:link && \
     php artisan optimize
 
-# Configuración de Apache
-COPY .docker/vhost.conf /etc/apache2/sites-available/000-default.conf
 EXPOSE 80
 CMD ["apache2-foreground"]
