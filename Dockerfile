@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
-    netcat \
+    netcat-openbsd \  # Usamos netcat-openbsd en lugar de netcat
     && docker-php-ext-install \
     pdo \
     pdo_mysql \
@@ -36,5 +36,5 @@ RUN cp .env.example .env && \
 
 EXPOSE 80
 
-# Comando de inicio que ejecuta migraciones y luego Apache
+# Comando de inicio modificado para usar nc.openbsd
 CMD bash -c "while ! nc -z $DB_HOST $DB_PORT; do sleep 1; done && php artisan migrate --force && apache2-foreground"
