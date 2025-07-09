@@ -31,7 +31,7 @@ class AlmacenController extends Controller
         $validatedData['activo'] = $request->boolean('activo');
         $validatedData['user_id'] = Auth::id();
 
-        Almacen::create($validatedData);
+        almacen::create($validatedData);
 
         return redirect()
             ->route('almacen.index')
