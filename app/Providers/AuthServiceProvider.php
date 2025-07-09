@@ -30,8 +30,8 @@ class AuthServiceProvider extends ServiceProvider
         categorias::class => CategoriaPolicy::class,
         proveedor::class => ProveedorPolicy::class,
         inventario_fisico::class => inventarioFisicoPolicy::class,
-        Productos::class => ProductoPolicy::class,
-        movimiento_de_Inventario::class => MovimientoPolicy::class,
+        productos::class => ProductoPolicy::class,
+        movimiento_de_inventario::class => MovimientoPolicy::class,
             almacen::class => AlmacenPolicy::class,
         EmpresaModel::class => EmpresaPolicy::class,
     ];
