@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Categorias;
+use App\Models\categorias;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -23,7 +23,7 @@ class CategoriaPolicy
      * Determine whether the user can view the model.
      * (Ver una categoría específica)
      */
-    public function view(User $user, Categorias $categoria): bool
+    public function view(User $user, categorias $categoria): bool
     {
         // Solo el dueño puede ver la categoría
         return $user->id === $categoria->user_id;
@@ -43,7 +43,7 @@ class CategoriaPolicy
      * Determine whether the user can update the model.
      * (Editar una categoría)
      */
-    public function update(User $user, Categorias $categoria): bool
+    public function update(User $user, categorias $categoria): bool
     {
         // Solo el dueño puede editar la categoría
         return $user->id === $categoria->user_id;
@@ -53,7 +53,7 @@ class CategoriaPolicy
      * Determine whether the user can delete the model.
      * (Eliminar una categoría)
      */
-    public function delete(User $user, Categorias $categoria): bool
+    public function delete(User $user, categorias $categoria): bool
     {
         // Solo el dueño puede eliminar la categoría
         return $user->id === $categoria->user_id;
@@ -63,7 +63,7 @@ class CategoriaPolicy
      * Determine whether the user can restore the model.
      * (Restaurar categoría eliminada con soft delete)
      */
-    public function restore(User $user, Categorias $categoria): bool
+    public function restore(User $user, categorias $categoria): bool
     {
         // Solo el dueño puede restaurar la categoría
         return $user->id === $categoria->user_id;
@@ -73,7 +73,7 @@ class CategoriaPolicy
      * Determine whether the user can permanently delete the model.
      * (Eliminación permanente, sin soft delete)
      */
-    public function forceDelete(User $user, Categorias $categoria): bool
+    public function forceDelete(User $user, categorias $categoria): bool
     {
         // Solo el dueño puede eliminar permanentemente
         return $user->id === $categoria->user_id;
