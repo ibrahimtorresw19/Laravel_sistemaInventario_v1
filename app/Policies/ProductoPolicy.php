@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Productos;
+use App\Models\productos;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 
@@ -20,7 +20,7 @@ class ProductoPolicy
     /**
      * Determine if the user can view the product.
      */
-    public function view(User $user, Productos $producto): bool
+    public function view(User $user, productos $producto): bool
     {
         $isOwner = $user->id === $producto->user_id;
         
@@ -47,7 +47,7 @@ class ProductoPolicy
     /**
      * Determine if the user can update the product.
      */
-    public function update(User $user, Productos $producto): bool
+    public function update(User $user, productos $producto): bool
     {
         $isOwner = $user->id === $producto->user_id;
         
@@ -65,7 +65,7 @@ class ProductoPolicy
     /**
      * Determine if the user can delete the product.
      */
-    public function delete(User $user, Productos $producto): bool
+    public function delete(User $user, productos $producto): bool
     {
         $isOwner = $user->id === $producto->user_id;
         
@@ -85,7 +85,7 @@ class ProductoPolicy
      * Determine if the user can restore the product.
      * (Opcional para soft deletes)
      */
-    public function restore(User $user, Productos $producto): bool
+    public function restore(User $user, productos $producto): bool
     {
         return $user->id === $producto->user_id;
     }
@@ -94,7 +94,7 @@ class ProductoPolicy
      * Determine if the user can permanently delete the product.
      * (Opcional para soft deletes)
      */
-    public function forceDelete(User $user, Productos $producto): bool
+    public function forceDelete(User $user, productos $producto): bool
     {
         return $user->id === $producto->user_id;
     }
