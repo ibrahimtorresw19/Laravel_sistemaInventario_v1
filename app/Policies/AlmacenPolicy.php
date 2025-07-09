@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\Almacen;
+use App\Models\almacen;
 
 class AlmacenPolicy
 {
@@ -12,7 +12,7 @@ class AlmacenPolicy
         return true;
     }
 
-    public function view(User $user, Almacen $almacen): bool
+    public function view(User $user, almacen $almacen): bool
     {
         return $user->id === $almacen->user_id;
     }
@@ -22,17 +22,17 @@ class AlmacenPolicy
         return true;
     }
 
-    public function update(User $user, Almacen $almacen): bool
+    public function update(User $user, almacen $almacen): bool
     {
         return $user->id === $almacen->user_id;
     }
 
-    public function delete(User $user, Almacen $almacen): bool
+    public function delete(User $user, almacen $almacen): bool
     {
         return $user->id === $almacen->user_id;
     }
 
-    public function restore(User $user, Almacen $almacen): bool
+    public function restore(User $user, almacen $almacen): bool
     {
         return $user->id === $almacen->user_id;
     }
