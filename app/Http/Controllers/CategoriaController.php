@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Categorias;
+use App\Models\categorias;
 use App\Http\Requests\CategoriaRequest;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -14,7 +14,7 @@ class CategoriaController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Categorias::class, 'categoria');
+        $this->authorizeResource(categorias::class, 'categoria');
     }
   
  public function index()
@@ -24,7 +24,7 @@ class CategoriaController extends Controller
     Log::debug('Consultando categorías para el usuario...');
     
     // Obtener categorías aplicando el scope del usuario
-    $categorias = Categorias::where('user_id', Auth::id())->paginate(5);
+    $categorias = categorias::where('user_id', Auth::id())->paginate(5);
     
     Log::debug('Total categorías encontradas: '.$categorias->count());
     Log::debug('Primeras categorías:', $categorias->take(3)->toArray());
@@ -41,7 +41,7 @@ class CategoriaController extends Controller
             
             Log::debug('Creando categoría con datos:', $data);
             
-            $categoria = Categorias::create($data);
+            $categoria = categorias::create($data);
             
             Log::debug('Categoría creada exitosamente ID: '.$categoria->id);
 
@@ -62,7 +62,7 @@ class CategoriaController extends Controller
         }
     }
 
-    public function update(CategoriaRequest $request, Categorias $categoria)
+    public function update(CategoriaRequest $request, categorias $categoria)
     {
         try {
             Log::debug('Actualizando categoría ID: '.$categoria->id);
@@ -85,7 +85,7 @@ class CategoriaController extends Controller
         }
     }
 
-    public function destroy(Categorias $categoria)
+    public function destroy(categorias $categoria)
     {
         try {
             Log::debug('Eliminando categoría ID: '.$categoria->id);
