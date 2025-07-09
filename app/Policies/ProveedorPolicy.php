@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Proveedor;
+use App\Models\proveedor;
 use App\Models\User;
 
 class ProveedorPolicy
@@ -12,7 +12,7 @@ class ProveedorPolicy
         return true;
     }
 
-    public function view(User $user, Proveedor $proveedor): bool
+    public function view(User $user, proveedor $proveedor): bool
     {
         return $user->id === $proveedor->user_id;
     }
@@ -22,18 +22,18 @@ class ProveedorPolicy
         return true;
     }
 
-    public function update(User $user, Proveedor $proveedor): bool
+    public function update(User $user, proveedor $proveedor): bool
     {
         return $user->id === $proveedor->user_id;
     }
 
-    public function delete(User $user, Proveedor $proveedor): bool
+    public function delete(User $user, proveedor $proveedor): bool
     {
         return $user->id === $proveedor->user_id;
     }
 
     // Método adicional para relacionar proveedores con productos
-    public function asociarProductos(User $user, Proveedor $proveedor): bool
+    public function asociarProductos(User $user, proveedor $proveedor): bool
     {
         return $user->id === $proveedor->user_id;
     }
