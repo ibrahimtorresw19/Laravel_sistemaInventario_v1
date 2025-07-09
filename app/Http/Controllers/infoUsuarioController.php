@@ -11,7 +11,7 @@ class infoUsuarioController extends Controller
     public function index()
     {
         $usuario = Auth::user();
-        return view('inventario.informacionUsuario', compact('usuario'));
+        return view('inventario.InformacionUsuario', compact('usuario'));
     }
 
     public function update(EditarUser_Request $request, $id)
