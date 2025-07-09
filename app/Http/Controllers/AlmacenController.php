@@ -22,7 +22,7 @@ class AlmacenController extends Controller
     public function index(): View
     {
         $almacenes = almacen::where('user_id', Auth::id())->paginate(5);
-        return view('inventario.almacen', compact('almacenes'));
+        return view('inventario.Almacen', compact('almacenes'));
     }
 
     public function store(AlmacenRequest $request): RedirectResponse
