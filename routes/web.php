@@ -4,7 +4,7 @@ use App\Http\Controllers\AlmacenController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ProductosController;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\InfoEmpresaController;
+use App\Http\Controllers\infoEmpresaController;
 use App\Http\Controllers\infoUsuarioController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\CambioClaveController;
@@ -45,8 +45,8 @@ Route::middleware(['auth'])->group(function () {
     // Empresa
     Route::get('/empresa', [EmpresaController::class, 'index'])->name('empresas.index');
     Route::put('/empresas/{empresas}', [EmpresaController::class, 'update'])->name('empresas.update');
-    Route::get('/Informacion-de-empresa', [InfoEmpresaController::class, 'index'])->name('Infoempresa.index');
-    Route::post('/Informacion-de-empresa', [InfoEmpresaController::class, 'store'])->name('Infoempresa.store');
+    Route::get('/Informacion-de-empresa', [infoEmpresaController::class, 'index'])->name('Infoempresa.index');
+    Route::post('/Informacion-de-empresa', [infoEmpresaController::class, 'store'])->name('Infoempresa.store');
     
     // Categorías
     Route::get('/Categorias', [CategoriaController::class, 'index'])->name('categorias');
