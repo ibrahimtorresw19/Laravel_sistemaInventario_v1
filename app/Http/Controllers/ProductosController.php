@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Productos;
-use App\Models\Categorias;
-use App\Models\Proveedor;
+use App\Models\productos;
+use App\Models\categorias;
+use App\Models\proveedor;
 use App\Http\Requests\ProductosRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -18,20 +18,20 @@ class ProductosController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(Productos::class, 'producto'); // Cambiado a 'producto' singular
+        $this->authorizeResource(productos::class, 'producto'); // Cambiado a 'producto' singular
     }
 
     public function index()
     {
-        $this->authorize('viewAny', Productos::class);
+        $this->authorize('viewAny', productos::class);
         
-        $productos = Productos::with(['categoria', 'proveedor', 'user'])
+        $productos = productos::with(['categoria', 'proveedor', 'user'])
                     ->where('user_id', Auth::id())
                     ->orderByDesc('created_at')
                     ->get();
 
-        $categorias = Categorias::where('user_id', Auth::id())->get();
-        $proveedores = Proveedor::where('user_id', Auth::id())->get();
+        $categorias = categorias::where('user_id', Auth::id())->get();
+        $proveedores = proveedor::where('user_id', Auth::id())->get();
 
         return view('inventario.Productos', 
             compact('productos', 'categorias', 'proveedores')
@@ -40,7 +40,7 @@ class ProductosController extends Controller
 
     public function store(ProductosRequest $request)
     {
-        $this->authorize('create', Productos::class);
+        $this->authorize('create', productos::class);
         
         try {
             $data = $request->validated();
@@ -51,7 +51,7 @@ class ProductosController extends Controller
                 $data['imagen'] = $request->file('imagen')->store('productos', 'public');
             }
 
-            Productos::create($data);
+            productos::create($data);
             
             return redirect()->route('productos.index')
                 ->with('success', 'Producto creado exitosamente');
@@ -63,7 +63,7 @@ class ProductosController extends Controller
         }
     }
 
-    public function update(ProductosRequest $request, Productos $producto)
+    public function update(ProductosRequest $request, productos $producto)
     {
         $this->authorize('update', $producto);
         
@@ -90,7 +90,7 @@ class ProductosController extends Controller
         }
     }
 
-    public function destroy(Productos $producto)
+    public function destroy(productos $producto)
     {
         $this->authorize('delete', $producto);
         
