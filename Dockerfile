@@ -31,11 +31,11 @@ RUN cp .env.example .env && \
     composer install --no-dev --optimize-autoloader && \
     chown -R www-data:www-data storage bootstrap/cache && \
     chmod -R 775 storage bootstrap/cache && \
-    php artisan key:generate --force && \
     php artisan storage:link && \
     php artisan optimize
 
+# No ejecutamos migraciones aquí, se harán al iniciar el contenedor
 EXPOSE 80
 
-# Comando de inicio que espera a que la base de datos esté disponible
-CMD bash -c "while ! nc -z $DB_HOST $DB_PORT; do sleep 1; done && php artisan migrate --force && apache2-foreground"
+# Comando de inicio
+CMD bash -c "php artisan migrate --force && apache2-foreground"
