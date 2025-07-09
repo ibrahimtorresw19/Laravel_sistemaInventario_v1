@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Routing\Controller;
-use App\Models\Almacen;
-use App\Models\Productos;
-use App\Models\Movimiento_de_Inventario;
+use App\Models\almacen;
+use App\Models\productos;
+use App\Models\movimiento_de_inventario;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Requests\MovimientoRequest;
@@ -19,33 +19,33 @@ class MovimientoInventarioController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->authorizeResource(Movimiento_de_Inventario::class, 'movimiento');
+        $this->authorizeResource(movimiento_de_inventario::class, 'movimiento');
     }
 
     public function index()
     {
-        $this->authorize('viewAny', Movimiento_de_Inventario::class);
+        $this->authorize('viewAny', movimiento_de_inventario::class);
         
-        $movimientos = Movimiento_de_Inventario::with(['user', 'almacen', 'producto'])
+        $movimientos = movimiento_de_inventario::with(['user', 'almacen', 'producto'])
                         ->where('user_id', Auth::id())
                         ->latest()
                         ->paginate(5);
         
-        $productos = Productos::where('user_id', Auth::id())->get();
-        $almacenes = Almacen::where('user_id', Auth::id())->get();
+        $productos = productos::where('user_id', Auth::id())->get();
+        $almacenes = almacen::where('user_id', Auth::id())->get();
 
         return view('inventario.movimiento_inventario', compact('movimientos', 'productos', 'almacenes'));
     }
 
     public function store(MovimientoRequest $request)
     {
-        $this->authorize('create', Movimiento_de_Inventario::class);
+        $this->authorize('create', movimiento_de_inventario::class);
         
         try {
             $data = $request->validated();
             $data['user_id'] = Auth::id();
             
-            $movimiento = Movimiento_de_Inventario::create($data);
+            $movimiento = movimiento_de_inventario::create($data);
 
             if ($request->wantsJson()) {
                 return response()->json([
@@ -72,7 +72,7 @@ class MovimientoInventarioController extends Controller
         }
     }
 
-    public function update(MovimientoRequest $request, Movimiento_de_Inventario $movimiento)
+    public function update(MovimientoRequest $request, movimiento_de_inventario $movimiento)
     {
         $this->authorize('update', $movimiento);
         
@@ -104,7 +104,7 @@ class MovimientoInventarioController extends Controller
         }
     }
 
-    public function destroy(Movimiento_de_Inventario $movimiento)
+    public function destroy(movimiento_de_inventario $movimiento)
     {
         $this->authorize('delete', $movimiento);
         
