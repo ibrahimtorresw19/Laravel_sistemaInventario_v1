@@ -24,7 +24,7 @@ class inventarioController extends Controller
         $CountProductos = productos::where('user_id', $userId)->count();
          $CountAlmacen=almacen::where('user_id', $userId)->count();
         $Countproveedores = proveedor::where('user_id', $userId)->count();
-          $CountInventarioFisico = inventario_Fisico::where('user_id', $userId)->count();
+          $CountInventarioFisico = inventario_fisico::where('user_id', $userId)->count();
          $CountMovimiento = movimiento_de_inventario::where('user_id', $userId)->count();
 
     return view('inventario.inicio', compact('Countcategorias','CountProductos','Countproveedores', 'CountAlmacen' ,'CountInventarioFisico', 'CountMovimiento'));
