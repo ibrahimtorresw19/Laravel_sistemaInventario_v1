@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Almacen;
+use App\Models\almacen;
 use App\Models\Categorias;
 use App\Models\inventario_fisico;
 use App\Models\Movimiento_de_Inventario;
@@ -32,7 +32,7 @@ class AuthServiceProvider extends ServiceProvider
         inventario_fisico::class => inventarioFisicoPolicy::class,
         Productos::class => ProductoPolicy::class,
         movimiento_de_Inventario::class => MovimientoPolicy::class,
-            Almacen::class => AlmacenPolicy::class,
+            almacen::class => AlmacenPolicy::class,
         EmpresaModel::class => EmpresaPolicy::class,
     ];
 
