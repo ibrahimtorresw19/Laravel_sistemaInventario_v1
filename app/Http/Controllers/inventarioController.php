@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\categorias;
-use App\Models\inventario_Fisico;
+use App\Models\inventario_fisico;
 use Illuminate\Support\Facades\Auth;
 use App\Models\productos;
 use App\Models\almacen;
