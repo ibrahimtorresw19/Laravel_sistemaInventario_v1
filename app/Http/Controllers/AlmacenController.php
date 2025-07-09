@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\almacen;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
-use App\Http\Requests\AlmacenRequest;
+use App\Http\Requests\almacenRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Routing\Controller;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -25,7 +25,7 @@ class AlmacenController extends Controller
         return view('inventario.Almacen', compact('almacenes'));
     }
 
-    public function store(AlmacenRequest $request): RedirectResponse
+    public function store(almacenRequest $request): RedirectResponse
     {
         $validatedData = $request->validated();
         $validatedData['activo'] = $request->boolean('activo');
@@ -38,7 +38,7 @@ class AlmacenController extends Controller
             ->with('success', 'Almacén creado exitosamente');
     }
 
-    public function update(AlmacenRequest $request, almacen $almacen): RedirectResponse
+    public function update(almacenRequest $request, almacen $almacen): RedirectResponse
     {
         $validatedData = $request->validated();
         $validatedData['activo'] = $request->boolean('activo');
