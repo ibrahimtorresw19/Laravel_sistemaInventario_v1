@@ -9,7 +9,7 @@ use App\Models\inventario_Fisico;
 use Illuminate\Support\Facades\Auth;
 use App\Models\productos;
 use App\Models\almacen;
-use App\Models\Proveedor;
+use App\Models\proveedor;
 use App\Models\movimiento_de_inventario;
 
 
