@@ -2,7 +2,7 @@
 
 @section('content')
 <style>
-    /* Sistema de diseño moderno con variables CSS */
+    /* Variables CSS */
     :root {
         --primary-color: #4f46e5;
         --primary-hover: #4338ca;
@@ -26,7 +26,7 @@
         --space-xl: 3rem;
     }
 
-    /* Estilos base */
+    /* Estilos generales */
     .inventario-container {
         max-width: 1200px;
         margin: 0 auto;
@@ -35,7 +35,7 @@
         color: var(--text-color);
     }
 
-    /* Header y controles */
+    /* Header */
     .inventario-header {
         display: flex;
         justify-content: space-between;
@@ -56,66 +56,6 @@
         display: flex;
         gap: var(--space-sm);
         flex-wrap: wrap;
-    }
-
-    /* Botones */
-    .btn {
-        padding: var(--space-xs) var(--space-sm);
-        border: none;
-        border-radius: var(--radius-md);
-        cursor: pointer;
-        font-weight: 600;
-        font-size: 0.875rem;
-        transition: var(--transition);
-        display: inline-flex;
-        align-items: center;
-        gap: var(--space-xs);
-        box-shadow: var(--shadow-sm);
-    }
-
-    .btn:hover {
-        transform: translateY(-1px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .btn:active {
-        transform: translateY(0);
-    }
-
-    .btn-primary {
-        background-color: var(--primary-color);
-        color: white;
-    }
-
-    .btn-primary:hover {
-        background-color: var(--primary-hover);
-    }
-
-    .btn-success {
-        background-color: var(--success-color);
-        color: white;
-    }
-
-    .btn-success:hover {
-        background-color: var(--success-hover);
-    }
-
-    .btn-danger {
-        background-color: var(--danger-color);
-        color: white;
-    }
-
-    .btn-danger:hover {
-        background-color: var(--danger-hover);
-    }
-
-    .btn-gray {
-        background-color: var(--gray-color);
-        color: white;
-    }
-
-    .btn-icon {
-        margin-right: var(--space-xs);
     }
 
     /* Tabla */
@@ -192,6 +132,66 @@
         color: #991b1b;
     }
 
+    /* Botones */
+    .btn {
+        padding: var(--space-xs) var(--space-sm);
+        border: none;
+        border-radius: var(--radius-md);
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.875rem;
+        transition: var(--transition);
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-xs);
+        box-shadow: var(--shadow-sm);
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+        box-shadow: var(--shadow-md);
+    }
+
+    .btn:active {
+        transform: translateY(0);
+    }
+
+    .btn-primary {
+        background-color: var(--primary-color);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-hover);
+    }
+
+    .btn-success {
+        background-color: var(--success-color);
+        color: white;
+    }
+
+    .btn-success:hover {
+        background-color: var(--success-hover);
+    }
+
+    .btn-danger {
+        background-color: var(--danger-color);
+        color: white;
+    }
+
+    .btn-danger:hover {
+        background-color: var(--danger-hover);
+    }
+
+    .btn-gray {
+        background-color: var(--gray-color);
+        color: white;
+    }
+
+    .btn-icon {
+        margin-right: var(--space-xs);
+    }
+
     /* Acciones */
     .actions-cell {
         display: flex;
@@ -199,7 +199,7 @@
         flex-wrap: wrap;
     }
 
-    /* Formularios y Modales */
+    /* Modales */
     .modal-overlay {
         position: fixed;
         top: 0;
@@ -249,6 +249,7 @@
         font-size: 1.5rem;
     }
 
+    /* Formularios */
     .form-grid {
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -291,7 +292,7 @@
         margin-top: var(--space-md);
     }
 
-    /* Estado - Toggle Switch Mejorado */
+    /* Estado */
     .status-container {
         grid-column: span 2;
         margin-bottom: var(--space-sm);
@@ -357,19 +358,6 @@
         border-color: #fca5a5;
         background-color: rgba(252, 165, 165, 0.1);
         color: #991b1b;
-    }
-
-    /* Estado vacío */
-    .empty-state {
-        text-align: center;
-        padding: var(--space-xl);
-        color: #64748b;
-    }
-
-    .empty-state-icon {
-        font-size: 3rem;
-        margin-bottom: var(--space-sm);
-        color: #cbd5e1;
     }
 
     /* Notificaciones */
@@ -468,30 +456,6 @@
         cursor: not-allowed;
     }
 
-    .pagination .page-item:first-child .page-link,
-    .pagination .page-item:last-child .page-link {
-        padding: 0 var(--space-md);
-    }
-
-    .pagination .page-item .page-link svg {
-        width: 1.25rem;
-        height: 1.25rem;
-    }
-
-    @media (max-width: 640px) {
-        .pagination .page-link {
-            min-width: 2rem;
-            height: 2rem;
-            padding: 0 var(--space-xs);
-            font-size: 0.875rem;
-        }
-        
-        .pagination .page-item:first-child .page-link,
-        .pagination .page-item:last-child .page-link {
-            padding: 0 var(--space-sm);
-        }
-    }
-
     /* Responsive */
     @media (max-width: 768px) {
         .inventario-container {
@@ -543,17 +507,25 @@
         .actions-cell {
             flex-direction: column;
         }
+        
+        .pagination .page-link {
+            min-width: 2rem;
+            height: 2rem;
+            padding: 0 var(--space-xs);
+            font-size: 0.875rem;
+        }
     }
 </style>
 
 <div class="inventario-container">
+    <!-- Notificaciones -->
     @if(session('success'))
         <div class="notification notification-success">
             {{ session('success') }}
         </div>
     @endif
 
-    @if($errors->any())
+    @if($errors->any()))
         <div class="notification notification-error">
             <ul>
                 @foreach($errors->all() as $error)
@@ -563,6 +535,7 @@
         </div>
     @endif
 
+    <!-- Encabezado -->
     <div class="inventario-header">
         <h1 class="page-title">Gestión de Inventarios Físicos</h1>
         <div class="controls-group">
@@ -575,6 +548,7 @@
         </div>
     </div>
 
+    <!-- Tabla de inventarios -->
     <div class="table-container">
         <table class="data-table">
             <thead>
@@ -731,10 +705,10 @@
         <div class="modal-content">
             <h2 class="modal-title">Editar Inventario Físico</h2>
             <form id="edit-form" method="POST">
-                  @method('PUT')
                 @csrf
-             
+                @method('PUT')
                 <input type="hidden" name="id" id="edit-id">
+                
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="edit-nombre" class="form-label">Nombre*</label>
@@ -805,6 +779,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // Elementos del DOM
         const modalOverlay = document.getElementById('modalOverlay');
         const modalEditOverlay = document.getElementById('modalEditOverlay');
         const openButton = document.getElementById('openModal');
@@ -854,11 +829,12 @@
                 const encargado = this.getAttribute('data-encargado');
                 const estado = this.getAttribute('data-estado');
 
+                // Llenar formulario con datos
                 document.getElementById('edit-id').value = id;
                 document.getElementById('edit-nombre').value = nombre;
                 document.getElementById('edit-observaciones').value = observaciones;
                 document.getElementById('edit-fecha_inicio').value = fecha_inicio;
-                document.getElementById('edit-fecha_fin').value = fecha_fin;
+                document.getElementById('edit-fecha_fin').value = fecha_fin || '';
                 document.getElementById('edit-encargado').value = encargado;
 
                 // Configurar el estado
@@ -867,7 +843,8 @@
                     estadoInput.checked = true;
                 }
 
-                editForm.action = `/inventarioFisico/{inventario_fisico}`;
+                // Configurar acción del formulario
+                editForm.action = `/inventarioFisico/${id}`;
                 modalEditOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
@@ -881,37 +858,66 @@
             }, 3000);
         }
 
-        // Manejar errores de validación en edición
+        // Manejar envío del formulario de edición
         editForm.addEventListener('submit', async function(e) {
             e.preventDefault();
+
+            // Mostrar loader
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+            submitBtn.disabled = true;
 
             try {
                 const response = await fetch(this.action, {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
                     },
                     body: new FormData(this)
                 });
 
+                const data = await response.json();
+                
                 if (response.ok) {
                     window.location.reload();
                 } else {
-                    const errors = await response.json();
                     // Limpiar errores anteriores
                     document.querySelectorAll('#edit-form .invalid-feedback').forEach(el => el.textContent = '');
-                    // Mostrar nuevos errores
-                    for (const [field, messages] of Object.entries(errors.errors)) {
-                        const errorElement = document.getElementById(`edit-${field}-error`);
-                        if (errorElement) errorElement.textContent = messages[0];
+                    
+                    // Mostrar errores de validación
+                    if (data.errors) {
+                        for (const [field, messages] of Object.entries(data.errors)) {
+                            const errorElement = document.getElementById(`edit-${field}-error`);
+                            if (errorElement) errorElement.textContent = messages[0];
+                        }
+                    } else {
+                        showNotification('Error: ' + (data.message || 'Error desconocido'), 'error');
                     }
                 }
             } catch (error) {
                 console.error('Error:', error);
-                alert('Error al actualizar el inventario');
+                showNotification('Error de conexión al actualizar el inventario', 'error');
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.disabled = false;
             }
         });
+
+        // Función para mostrar notificaciones
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification notification-${type}`;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.add('notification-fade-out');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
     });
 </script>
 @endsection
