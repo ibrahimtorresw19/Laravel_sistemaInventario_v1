@@ -536,7 +536,7 @@
     </div>
 @endif
 
-
+<div class="categorias-container">
     <div class="categorias-header">
         <h1>Gestor de Categorías</h1>
         <div class="controls-group">
@@ -571,20 +571,16 @@
                                 </span>
                             </td>
                             <td class="actions-cell">
-                                @can('update', $categoria)
-                                    <button class="btn btn-primary btn-edit" data-id="{{ $categoria->id }}">
-                                        <i class="fas fa-edit btn-icon"></i>Editar
+                                <button class="btn btn-primary btn-edit" data-id="{{ $categoria->id }}">
+                                    <i class="fas fa-edit btn-icon"></i>Editar
+                                </button>
+                                <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" style="display: inline;">
+                                    @method('DELETE')
+                                    @csrf
+                                    <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta categoría?')">
+                                        <i class="fas fa-trash-alt btn-icon"></i>Eliminar
                                     </button>
-                                @endcan
-                                @can('delete', $categoria)
-                                    <form action="{{ route('categorias.destroy', $categoria) }}" method="POST" style="display: inline;">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-danger">
-                                            <i class="fas fa-trash-alt btn-icon"></i>Eliminar
-                                        </button>
-                                    </form>
-                                @endcan
+                                </form>
                             </td>
                         </tr>
                     @endforeach
@@ -600,12 +596,13 @@
             <p>Comienza creando tu primera categoría</p>
         </div>
     @endif
-</div>
- <!-- Paginación -->
+
+    <!-- Paginación -->
     <div class="pagination">
         {{ $categorias->links() }}
     </div>
 </div>
+
 <!-- Modal Crear -->
 <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
@@ -833,7 +830,7 @@
         });
 
         // Verificar permisos para eliminar
-        document.querySelectorAll('.btn-delete').forEach(button => {
+        document.querySelectorAll('.btn-danger').forEach(button => {
             button.addEventListener('click', function(e) {
                 const row = this.closest('tr');
                 const userId = row.getAttribute('data-user-id');
