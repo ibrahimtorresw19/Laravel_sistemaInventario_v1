@@ -17,7 +17,7 @@ class InventarioFisicoController extends Controller
 
     public function __construct()
     {
-        $this->authorizeResource(InventarioFisico::class, 'InventarioFisico');
+        $this->authorizeResource(inventario_fisico::class, 'InventarioFisico');
     }
 
 
