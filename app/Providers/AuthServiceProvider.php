@@ -11,7 +11,7 @@ use App\Models\proveedor;
 use App\Models\EmpresaModel;
 use App\Policies\AlmacenPolicy;
 use App\Policies\CategoriaPolicy;
-use App\Policies\inventarioFisicoPolicy;
+use App\Policies\InventarioFisicoPolicy;
 use App\Policies\MovimientoPolicy;
 use App\Policies\ProductoPolicy;
 use App\Policies\ProveedorPolicy;
