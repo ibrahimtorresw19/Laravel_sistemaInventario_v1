@@ -41,13 +41,16 @@ class InventarioFisicoController extends Controller
 
 public function update(InventarioFisico_Request $request, inventario_fisico $inventario_fisico)
 {
-    $data = $request->validated();
-    $inventario_fisico->update($data);
-    return redirect()->route('inventarioFisico')->with('success', 'Inventario actualizado correctamente');
-}
-
-  public function destroy(inventario_fisico $inventario_fisico){
-    $inventario_fisico->delete();
-    return redirect()->route('inventarioFisico')->with('success', 'Inventario eliminado correctamente');
-}
+    try {
+        $this->authorize('update', $inventario_fisico);
+        
+        $data = $request->validated();
+        $inventario_fisico->update($data);
+        
+        return redirect()->route('inventarioFisico')->with('success', 'Inventario actualizado correctamente');
+    } catch (\Exception $e) {
+        return redirect()->back()
+            ->withInput()
+            ->withErrors(['error' => 'Error al actualizar el inventario: ' . $e->getMessage()]);
+    }
 }
