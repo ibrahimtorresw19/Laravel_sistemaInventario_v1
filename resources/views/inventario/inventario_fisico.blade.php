@@ -844,7 +844,7 @@
                 }
 
                 // Configurar acción del formulario
-                editForm.action = `/inventarioFisico/${id}`;
+                editForm.action = `{{ url('/inventarioFisico') }}/${id}`;
                 modalEditOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
