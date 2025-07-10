@@ -73,10 +73,10 @@ Route::delete('/productos/{producto}', [ProductosController::class, 'destroy'])-
     Route::delete('/almacen/{almacen}', [AlmacenController::class, 'destroy'])->name('almacen.destroy');
     
     // Inventario Físico
-    Route::get('/inventarioFisico', [InventarioFisicoController::class, 'index'])->name('inventarioFisico');
-    Route::post('/inventarioFisico', [InventarioFisicoController::class, 'store'])->name('inventarioFisico.store');
-    Route::put('/inventarioFisico/{inventario_fisico}', [InventarioFisicoController::class, 'update'])->name('inventarioFisico.update');
-    Route::delete('/inventarioFisico/{inventario_fisico}', [InventarioFisicoController::class, 'destroy'])->name('inventarioFisico.destroy');
+    Route::get('/inventarioFisico', [inventarioFisicoController::class, 'index'])->name('inventarioFisico');
+    Route::post('/inventarioFisico', [inventarioFisicoController::class, 'store'])->name('inventarioFisico.store');
+    Route::put('/inventarioFisico/{inventario_fisico}', [inventarioFisicoController::class, 'update'])->name('inventarioFisico.update');
+    Route::delete('/inventarioFisico/{inventario_fisico}', [inventarioFisicoController::class, 'destroy'])->name('inventarioFisico.destroy');
     
     // Movimientos de Inventario
     Route::get('/MovimientoDeInventario', [movimientoInventarioController::class, 'index'])->name('movimientos.index');
