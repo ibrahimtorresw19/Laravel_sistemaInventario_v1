@@ -29,7 +29,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         categorias::class => CategoriaPolicy::class,
         proveedor::class => ProveedorPolicy::class,
-        inventario_fisico::class => inventarioFisicoPolicy::class,
+        inventario_fisico::class => InventarioFisicoPolicy::class,
         productos::class => ProductoPolicy::class,
         movimiento_de_inventario::class => MovimientoPolicy::class,
             almacen::class => AlmacenPolicy::class,
