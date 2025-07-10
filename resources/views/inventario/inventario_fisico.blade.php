@@ -731,8 +731,9 @@
         <div class="modal-content">
             <h2 class="modal-title">Editar Inventario Físico</h2>
             <form id="edit-form" method="POST">
+                  @method('PUT')
                 @csrf
-                @method('PUT')
+             
                 <input type="hidden" name="id" id="edit-id">
                 <div class="form-grid">
                     <div class="form-group">
