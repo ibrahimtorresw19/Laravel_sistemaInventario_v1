@@ -4,8 +4,8 @@ use Illuminate\Support\Str;
 
 return [
     'driver' => env('SESSION_DRIVER', 'file'),
-    'lifetime' => (int) env('SESSION_LIFETIME', 120), // Tiempo máximo de sesión en minutos
-    'timeout' => (int) env('SESSION_TIMEOUT', 30), // Tiempo de inactividad en minutos
+    'lifetime' => (int) env('SESSION_LIFETIME', 420), // Tiempo máximo de sesión en minutos
+    'timeout' => (int) env('SESSION_TIMEOUT', 120), // Tiempo de inactividad en minutos
     'expire_on_close' => env('SESSION_EXPIRE_ON_CLOSE', false),
     'encrypt' => env('SESSION_ENCRYPT', true),
     'files' => storage_path('framework/sessions'),
