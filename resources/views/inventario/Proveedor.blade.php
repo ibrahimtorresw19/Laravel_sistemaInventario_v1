@@ -574,7 +574,7 @@
                         <form action="{{ route('proveedores.destroy', $proveedor) }}" method="POST" style="display: inline;">
                             @method('DELETE')
                             @csrf
-                            <button type="submit" class="btn btn-danger">
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">
                                 <i class="fas fa-trash-alt btn-icon"></i>Eliminar
                             </button>
                         </form>
@@ -641,14 +641,14 @@
                         <label class="form-label">Estado*</label>
                         <div class="toggle-container">
                             <div class="toggle-switch">
-                                <input type="radio" name="estado" id="estado-activo" value="1" {{ old('estado', '1') == '1' ? 'checked' : '' }}>
-                                <input type="radio" name="estado" id="estado-inactivo" value="0" {{ old('estado') == '0' ? 'checked' : '' }}>
+                                <input type="radio" name="activo" id="estado-activo" value="1" {{ old('activo', '1') == '1' ? 'checked' : '' }}>
+                                <input type="radio" name="activo" id="estado-inactivo" value="0" {{ old('activo') == '0' ? 'checked' : '' }}>
                                 <label for="estado-activo" class="toggle-option">Activo</label>
                                 <label for="estado-inactivo" class="toggle-option">Inactivo</label>
                                 <div class="toggle-slider"></div>
                             </div>
                         </div>
-                        @error('estado')
+                        @error('activo')
                             <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
@@ -705,14 +705,14 @@
                         <label class="form-label">Estado*</label>
                         <div class="toggle-container">
                             <div class="toggle-switch">
-                                <input type="radio" name="estado" id="edit-estado-activo" value="1">
-                                <input type="radio" name="estado" id="edit-estado-inactivo" value="0">
+                                <input type="radio" name="activo" id="edit-estado-activo" value="1">
+                                <input type="radio" name="activo" id="edit-estado-inactivo" value="0">
                                 <label for="edit-estado-activo" class="toggle-option">Activo</label>
                                 <label for="edit-estado-inactivo" class="toggle-option">Inactivo</label>
                                 <div class="toggle-slider"></div>
                             </div>
                         </div>
-                        <span class="invalid-feedback" id="edit-estado-error"></span>
+                        <span class="invalid-feedback" id="edit-activo-error"></span>
                     </div>
                 </div>
 
@@ -836,36 +836,51 @@
             }, 3000);
         }
 
-        // Manejar errores de validación en edición
-        editForm.addEventListener('submit', async function(e) {
+        // Manejar el envío del formulario de edición
+        editForm.addEventListener('submit', function(e) {
             e.preventDefault();
-
-            try {
-                const response = await fetch(this.action, {
-                    method: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                        'Accept': 'application/json'
-                    },
-                    body: new FormData(this)
-                });
-
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    const errors = await response.json();
-                    // Limpiar errores anteriores
-                    document.querySelectorAll('#edit-form .invalid-feedback').forEach(el => el.textContent = '');
-                    // Mostrar nuevos errores
-                    for (const [field, messages] of Object.entries(errors.errors)) {
-                        const errorElement = document.getElementById(`edit-${field}-error`);
-                        if (errorElement) errorElement.textContent = messages[0];
-                    }
+            
+            const formData = new FormData(editForm);
+            const url = editForm.action;
+            
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    'Accept': 'application/json'
+                },
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
                 }
-            } catch (error) {
-                console.error('Error:', error);
-                alert('Error al actualizar el proveedor');
-            }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    window.location.reload();
+                }
+            })
+            .catch(error => {
+                if (error.errors) {
+                    // Limpiar errores anteriores
+                    document.querySelectorAll('#edit-form .invalid-feedback').forEach(el => {
+                        el.textContent = '';
+                    });
+                    
+                    // Mostrar nuevos errores
+                    for (const [field, messages] of Object.entries(error.errors)) {
+                        const errorElement = document.getElementById(`edit-${field}-error`);
+                        if (errorElement) {
+                            errorElement.textContent = messages[0];
+                        }
+                    }
+                } else {
+                    console.error('Error:', error);
+                    alert('Error al actualizar el proveedor');
+                }
+            });
         });
     });
 </script>
