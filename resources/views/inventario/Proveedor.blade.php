@@ -515,7 +515,7 @@
         </div>
     @endif
 
-    @if($errors->any()))
+    @if($errors->any())
         <div class="notification notification-error">
             <ul>
                 @foreach($errors->all() as $error)
@@ -574,7 +574,7 @@
                         <form action="{{ route('proveedores.destroy', $proveedor) }}" method="POST" style="display: inline;">
                             @method('DELETE')
                             @csrf
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de eliminar este proveedor?')">
+                            <button type="submit" class="btn btn-danger">
                                 <i class="fas fa-trash-alt btn-icon"></i>Eliminar
                             </button>
                         </form>
@@ -641,14 +641,14 @@
                         <label class="form-label">Estado*</label>
                         <div class="toggle-container">
                             <div class="toggle-switch">
-                                <input type="radio" name="activo" id="estado-activo" value="1" {{ old('activo', '1') == '1' ? 'checked' : '' }}>
-                                <input type="radio" name="activo" id="estado-inactivo" value="0" {{ old('activo') == '0' ? 'checked' : '' }}>
+                                <input type="radio" name="estado" id="estado-activo" value="1" {{ old('estado', '1') == '1' ? 'checked' : '' }}>
+                                <input type="radio" name="estado" id="estado-inactivo" value="0" {{ old('estado') == '0' ? 'checked' : '' }}>
                                 <label for="estado-activo" class="toggle-option">Activo</label>
                                 <label for="estado-inactivo" class="toggle-option">Inactivo</label>
                                 <div class="toggle-slider"></div>
                             </div>
                         </div>
-                        @error('activo')
+                        @error('estado')
                             <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
@@ -676,8 +676,6 @@
                 @csrf
                 @method('PUT')
                 <input type="hidden" name="id" id="edit-id">
-                <input type="hidden" name="activo" id="edit-activo-hidden" value="1">
-                
                 <div class="form-grid">
                     <div class="form-group">
                         <label for="edit-nombre" class="form-label">Nombre*</label>
@@ -707,14 +705,14 @@
                         <label class="form-label">Estado*</label>
                         <div class="toggle-container">
                             <div class="toggle-switch">
-                                <input type="radio" name="activo_radio" id="edit-estado-activo" value="1" checked>
-                                <input type="radio" name="activo_radio" id="edit-estado-inactivo" value="0">
+                                <input type="radio" name="estado" id="edit-estado-activo" value="1">
+                                <input type="radio" name="estado" id="edit-estado-inactivo" value="0">
                                 <label for="edit-estado-activo" class="toggle-option">Activo</label>
                                 <label for="edit-estado-inactivo" class="toggle-option">Inactivo</label>
                                 <div class="toggle-slider"></div>
                             </div>
                         </div>
-                        <span class="invalid-feedback" id="edit-activo-error"></span>
+                        <span class="invalid-feedback" id="edit-estado-error"></span>
                     </div>
                 </div>
 
@@ -813,7 +811,6 @@
                 document.getElementById('edit-telefono').value = telefono;
                 document.getElementById('edit-email').value = email;
                 document.getElementById('edit-direccion').value = direccion;
-                document.getElementById('edit-activo-hidden').value = activo;
 
                 if(activo === '1') {
                     document.getElementById('edit-estado-activo').checked = true;
@@ -831,66 +828,6 @@
             });
         });
 
-        // Actualizar el campo oculto cuando cambia el toggle
-        document.querySelectorAll('#modalEditOverlay input[name="activo_radio"]').forEach(radio => {
-            radio.addEventListener('change', function() {
-                document.getElementById('edit-activo-hidden').value = this.value;
-            });
-        });
-
-        // Manejar el envío del formulario de edición
-        editForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Asegurarse de que el valor del estado esté actualizado
-            const selectedRadio = document.querySelector('#modalEditOverlay input[name="activo_radio"]:checked');
-            if (selectedRadio) {
-                document.getElementById('edit-activo-hidden').value = selectedRadio.value;
-            }
-            
-            const formData = new FormData(editForm);
-            const url = editForm.action;
-            
-            fetch(url, {
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    'Accept': 'application/json'
-                },
-                body: formData
-            })
-            .then(response => {
-                if (!response.ok) {
-                    return response.json().then(err => { throw err; });
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (data.success) {
-                    window.location.reload();
-                }
-            })
-            .catch(error => {
-                if (error.errors) {
-                    // Limpiar errores anteriores
-                    document.querySelectorAll('#edit-form .invalid-feedback').forEach(el => {
-                        el.textContent = '';
-                    });
-                    
-                    // Mostrar nuevos errores
-                    for (const [field, messages] of Object.entries(error.errors)) {
-                        const errorElement = document.getElementById(`edit-${field}-error`);
-                        if (errorElement) {
-                            errorElement.textContent = messages[0];
-                        }
-                    }
-                } else {
-                    console.error('Error:', error);
-                    alert('Error al actualizar el proveedor');
-                }
-            });
-        });
-
         // Auto cerrar notificación
         if (notification) {
             setTimeout(() => {
@@ -899,10 +836,35 @@
             }, 3000);
         }
 
-        // Recargar la página cuando se navega desde el cache
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                window.location.reload();
+        // Manejar errores de validación en edición
+        editForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            try {
+                const response = await fetch(this.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                        'Accept': 'application/json'
+                    },
+                    body: new FormData(this)
+                });
+
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    const errors = await response.json();
+                    // Limpiar errores anteriores
+                    document.querySelectorAll('#edit-form .invalid-feedback').forEach(el => el.textContent = '');
+                    // Mostrar nuevos errores
+                    for (const [field, messages] of Object.entries(errors.errors)) {
+                        const errorElement = document.getElementById(`edit-${field}-error`);
+                        if (errorElement) errorElement.textContent = messages[0];
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Error al actualizar el proveedor');
             }
         });
     });
