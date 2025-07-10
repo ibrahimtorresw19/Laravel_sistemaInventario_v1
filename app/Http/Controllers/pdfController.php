@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Categorias;
+use App\Models\categorias;
 use App\Models\productos;
-use App\Models\Proveedor;
-use App\Models\Almacen;
-use App\Models\Inventario_Fisico;
+use App\Models\proveedor;
+use App\Models\almacen;
+use App\Models\inventario_fisico;
 use App\Models\movimiento_de_inventario;
 use Barryvdh\DomPDF\Facade\Pdf;
 
@@ -15,7 +15,7 @@ class pdfController extends Controller
 {
     public function generarPDF()
 {
-    $categorias = Categorias::all();
+    $categorias = categorias::all();
 
     $pdf = Pdf::loadView('inventario.pdf', compact('categorias'));
 
@@ -27,7 +27,7 @@ class pdfController extends Controller
 
     public function generarPDFAlmacen()
 {
-    $almacenes= Almacen::all();
+    $almacenes= almacen::all();
 
     $pdf = Pdf::loadView('inventario.pdfAlmacen', compact('almacenes'));
 
@@ -39,7 +39,7 @@ class pdfController extends Controller
 
    public function generarPDFProveedores()
 {
-    $proveedores= Proveedor::all();
+    $proveedores= proveedor::all();
 
     $pdf = Pdf::loadView('inventario.pdfProveedor', compact('proveedores'));
 
