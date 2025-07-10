@@ -867,7 +867,7 @@
                     estadoInput.checked = true;
                 }
 
-                editForm.action = `/inventarioFisico/${id}`;
+                editForm.action = `/inventarioFisico/{inventario_fisico}`;
                 modalEditOverlay.classList.add('active');
                 document.body.style.overflow = 'hidden';
             });
