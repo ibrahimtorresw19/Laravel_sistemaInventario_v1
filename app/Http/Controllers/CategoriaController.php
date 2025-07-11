@@ -15,16 +15,14 @@ class CategoriaController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth'); // Asegura autenticación primero
+        $this->middleware('auth');
+        // Cambiado a 'categoria' para coincidir con el parámetro de ruta
         $this->authorizeResource(categorias::class, 'categoria');
     }
 
     public function index()
     {
-        Log::info('Usuario '.auth()->id().' accediendo a categorías');
-        
         $categorias = categorias::where('user_id', Auth::id())->paginate(5);
-        
         return view('inventario.Categorias', compact('categorias'));
     }
 
@@ -34,23 +32,24 @@ class CategoriaController extends Controller
             $data = $request->validated();
             $data['activo'] = $request->estado == '1';
             $data['user_id'] = auth()->id(); // Asignación obligatoria
-            
-            // Verificación adicional de seguridad
-            if (auth()->guest()) {
-                Log::warning('Intento de creación por usuario no autenticado');
-                abort(403, 'No autenticado');
-            }
 
             $categoria = categorias::create($data);
             
-            Log::info('Categoría creada ID:'.$categoria->id.' por usuario:'.auth()->id());
+            Log::info('Categoría creada', [
+                'id' => $categoria->id,
+                'user_id' => auth()->id(),
+                'data' => $data
+            ]);
 
             return redirect()
                    ->route('categorias')
                    ->with('success', 'Categoría creada exitosamente');
 
         } catch (\Exception $e) {
-            Log::error('Error al crear categoría: '.$e->getMessage());
+            Log::error('Error al crear categoría', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString()
+            ]);
             return back()
                    ->withInput()
                    ->with('error', 'Error al crear la categoría: '.$e->getMessage());
@@ -61,25 +60,29 @@ class CategoriaController extends Controller
     {
         try {
             // Verificación explícita de propiedad
-            if ($categoria->user_id !== auth()->id()) {
-                Log::warning('Intento de edición no autorizado. Usuario:'.auth()->id().' Categoría:'.$categoria->id);
-                abort(403, 'No tienes permiso para editar esta categoría');
-            }
+            $this->authorize('update', $categoria);
 
             $data = $request->validated();
             $data['activo'] = $request->estado == '1';
 
             $categoria->update($data);
             
-            Log::info('Categoría actualizada ID:'.$categoria->id);
+            Log::info('Categoría actualizada', [
+                'id' => $categoria->id,
+                'user_id' => auth()->id()
+            ]);
 
             return redirect()
                    ->route('categorias')
                    ->with('success', 'Categoría actualizada exitosamente');
 
         } catch (\Exception $e) {
-            Log::error('Error al actualizar categoría: '.$e->getMessage());
-            return back()->with('error', 'Error al actualizar: '.$e->getMessage());
+            Log::error('Error al actualizar categoría', [
+                'id' => $categoria->id,
+                'error' => $e->getMessage()
+            ]);
+            return back()
+                   ->with('error', 'Error al actualizar: '.$e->getMessage());
         }
     }
 
@@ -87,22 +90,26 @@ class CategoriaController extends Controller
     {
         try {
             // Verificación explícita de propiedad
-            if ($categoria->user_id !== auth()->id()) {
-                Log::warning('Intento de eliminación no autorizado. Usuario:'.auth()->id().' Categoría:'.$categoria->id);
-                abort(403, 'No tienes permiso para eliminar esta categoría');
-            }
+            $this->authorize('delete', $categoria);
 
             $categoria->delete();
             
-            Log::info('Categoría eliminada ID:'.$categoria->id);
+            Log::info('Categoría eliminada', [
+                'id' => $categoria->id,
+                'user_id' => auth()->id()
+            ]);
 
             return redirect()
                    ->route('categorias')
                    ->with('success', 'Categoría eliminada exitosamente');
 
         } catch (\Exception $e) {
-            Log::error('Error al eliminar categoría: '.$e->getMessage());
-            return back()->with('error', 'Error al eliminar: '.$e->getMessage());
+            Log::error('Error al eliminar categoría', [
+                'id' => $categoria->id,
+                'error' => $e->getMessage()
+            ]);
+            return back()
+                   ->with('error', 'Error al eliminar: '.$e->getMessage());
         }
     }
 }
