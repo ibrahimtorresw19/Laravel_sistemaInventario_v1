@@ -115,4 +115,4 @@ class InventarioFisicoController extends Controller
             return back()->with('error', 'Error al eliminar: ' . $e->getMessage());
         }
     }
-}|
+}
