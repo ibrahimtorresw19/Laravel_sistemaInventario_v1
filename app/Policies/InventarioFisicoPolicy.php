@@ -2,72 +2,57 @@
 
 namespace App\Policies;
 
-use App\Models\Inventario_Fisico;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
+use App\Models\inventario_fisico;
 
 class InventarioFisicoPolicy
 {
-    /**
-     * Determinar si el usuario puede ver cualquier registro de inventario físico.
-     */
     public function viewAny(User $user): bool
     {
-        return true; // Todos los usuarios autenticados pueden ver la lista
+        return true;
     }
 
-    /**
-     * Determinar si el usuario puede ver un inventario físico específico.
-     */
-    public function view(User $user, Inventario_Fisico $inventario): bool
+    public function view(User $user, inventario_fisico $inventario): bool
     {
         return $user->id === $inventario->user_id;
     }
 
-    /**
-     * Determinar si el usuario puede crear nuevos registros de inventario físico.
-     */
     public function create(User $user): bool
     {
-        return true; // Todos los usuarios autenticados pueden crear
+        return true;
     }
 
-    /**
-     * Determinar si el usuario puede actualizar un inventario físico.
-     */
-    public function update(User $user, Inventario_Fisico $inventario): bool
+    public function update(User $user, inventario_fisico $inventario): bool
     {
         return $user->id === $inventario->user_id;
     }
 
-    /**
-     * Determinar si el usuario puede eliminar un inventario físico.
-     */
-    public function delete(User $user, Inventario_Fisico $inventario): bool
+    public function delete(User $user, inventario_fisico $inventario): bool
     {
         return $user->id === $inventario->user_id;
     }
 
-    /**
-     * Determinar si el usuario puede realizar conteos físicos en el inventario.
-     */
-    public function realizarConteo(User $user, Inventario_Fisico $inventario): bool
+    public function restore(User $user, inventario_fisico $inventario): bool
     {
         return $user->id === $inventario->user_id;
     }
 
-    /**
-     * Determinar si el usuario puede cerrar un inventario físico.
-     */
-    public function cerrarInventario(User $user, Inventario_Fisico $inventario): bool
+    public function forceDelete(User $user, inventario_fisico $inventario): bool
+    {
+        return $user->id === $inventario->user_id;
+    }
+
+    public function realizarConteo(User $user, inventario_fisico $inventario): bool
+    {
+        return $user->id === $inventario->user_id;
+    }
+
+    public function cerrarInventario(User $user, inventario_fisico $inventario): bool
     {
         return $user->id === $inventario->user_id && $inventario->estado !== 'cerrado';
     }
 
-    /**
-     * Determinar si el usuario puede reabrir un inventario físico cerrado.
-     */
-    public function reabrirInventario(User $user, Inventario_Fisico $inventario): bool
+    public function reabrirInventario(User $user, inventario_fisico $inventario): bool
     {
         return $user->id === $inventario->user_id && $inventario->estado === 'cerrado';
     }
