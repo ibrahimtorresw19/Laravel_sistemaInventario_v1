@@ -5,16 +5,19 @@ namespace App\Policies;
 use App\Models\categorias;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
+use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CategoriaPolicy
 {
+    use HandlesAuthorization;
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        // Cualquier usuario autenticado puede ver la lista de categorías
-        return $user !== null;
+        // Verifica que el usuario esté autenticado y activo
+        return $user !== null && $user->activo;
     }
 
     /**
@@ -22,8 +25,8 @@ class CategoriaPolicy
      */
     public function view(User $user, categorias $categoria): bool
     {
-        // Solo el dueño puede ver la categoría específica
-        return $user->id === $categoria->user_id;
+        // Verifica propiedad y que la categoría exista
+        return $categoria && $user->id === $categoria->user_id;
     }
 
     /**
@@ -31,8 +34,8 @@ class CategoriaPolicy
      */
     public function create(User $user): bool
     {
-        // Cualquier usuario autenticado puede crear categorías
-        return $user !== null;
+        // Usuario debe estar autenticado y tener permiso de creación
+        return $user !== null && $user->hasPermissionTo('create categorias');
     }
 
     /**
@@ -40,8 +43,10 @@ class CategoriaPolicy
      */
     public function update(User $user, categorias $categoria): bool
     {
-        // Solo el dueño puede editar la categoría
-        return $user->id === $categoria->user_id;
+        // Verifica propiedad y permisos específicos
+        return $categoria && 
+               $user->id === $categoria->user_id && 
+               $user->hasPermissionTo('edit categorias');
     }
 
     /**
@@ -49,8 +54,11 @@ class CategoriaPolicy
      */
     public function delete(User $user, categorias $categoria): bool
     {
-        // Solo el dueño puede eliminar la categoría
-        return $user->id === $categoria->user_id;
+        // Verifica propiedad y que la categoría no tenga relaciones
+        return $categoria && 
+               $user->id === $categoria->user_id &&
+               $categoria->productos()->count() === 0 &&
+               $user->hasPermissionTo('delete categorias');
     }
 
     /**
@@ -58,8 +66,10 @@ class CategoriaPolicy
      */
     public function restore(User $user, categorias $categoria): bool
     {
-        // Solo el dueño puede restaurar categorías eliminadas (soft deletes)
-        return $user->id === $categoria->user_id;
+        // Verifica propiedad y permisos para restaurar
+        return $categoria && 
+               $user->id === $categoria->user_id &&
+               $user->hasPermissionTo('restore categorias');
     }
 
     /**
@@ -67,7 +77,16 @@ class CategoriaPolicy
      */
     public function forceDelete(User $user, categorias $categoria): bool
     {
-        // Solo el dueño puede eliminar permanentemente la categoría
-        return $user->id === $categoria->user_id;
+        // Solo administradores pueden eliminar permanentemente
+        return $user->isAdmin();
+    }
+
+    /**
+     * Determine whether the user can reorder models.
+     */
+    public function reorder(User $user): bool
+    {
+        // Permiso para reordenar categorías
+        return $user->hasPermissionTo('reorder categorias');
     }
 }
