@@ -15,7 +15,6 @@ class CategoriaController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth');
         // Cambiado a 'categoria' para coincidir con el parámetro de ruta
         $this->authorizeResource(categorias::class, 'categoria');
     }
