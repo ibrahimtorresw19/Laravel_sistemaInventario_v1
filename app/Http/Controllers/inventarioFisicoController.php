@@ -12,7 +12,7 @@ class InventarioFisicoController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+       
         $this->authorizeResource(inventario_fisico::class, 'inventarioFisico');
     }
 
