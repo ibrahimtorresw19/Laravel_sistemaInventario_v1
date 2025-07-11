@@ -283,12 +283,7 @@
                     Registrarse
                 </button>
 
-                <div class="separator">o continúa con</div>
-
-                <a href="{{ url('/auth/google') }}" class="btn-google">
-                    <i class="fab fa-google"></i>
-                    Google
-                </a>
+               
             </form>
         </div>
     </div>
