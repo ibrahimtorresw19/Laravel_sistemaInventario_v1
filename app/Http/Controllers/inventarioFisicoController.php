@@ -9,7 +9,7 @@ use App\Http\Requests\InventarioFisico_Request;
 use App\Models\inventario_fisico;
 
 class InventarioFisicoController extends Controller
-{
+{  use AuthorizesRequests;
     public function __construct()
     {
        
